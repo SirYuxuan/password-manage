@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="zxx">
+
+<head>
+	<title>雨轩密码管理系统-登陆</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	<!-- Meta tag Keywords -->
+	<!-- css files -->
+	<link rel="stylesheet" href="/static/css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link rel="stylesheet" href="/static/css/fontawesome-all.css">
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //css files -->
+
+</head>
+
+<body>
+	<!-- bg effect -->
+	<div id="bg">
+		<canvas></canvas>
+		<canvas></canvas>
+		<canvas></canvas>
+	</div>
+	<!-- //bg effect -->
+	<!-- title -->
+	<h1>雨轩密码管理系统</h1>
+	<!-- //title -->
+	<!-- content -->
+	<div class="sub-main-w3">
+		<form action="#" method="post">
+			<h2>登陆
+				<i class="fas fa-level-down-alt"></i>
+			</h2>
+			<div class="form-style-agile">
+				<label>
+					<i class="fas fa-user"></i>
+					用户名
+				</label>
+				<input placeholder="Username" id="name" name="Name" type="text" required="">
+			</div>
+			<div class="form-style-agile">
+				<label>
+					<i class="fas fa-unlock-alt"></i>
+					密码
+				</label>
+				<input placeholder="Password" id="pwd" name="Password" type="password" required="">
+			</div>
+			<!-- checkbox -->
+		
+			<!-- //checkbox -->
+			<input type="button" id="login" value="立即登录">
+		</form>
+	</div>
+	<!-- //content -->
+
+	<!-- copyright -->
+	<div class="footer">
+		<p>Copyright &copy; 2018.Company Yuxuan All rights reserved.<a target="_blank" href="https://www.yuxuan66.com/">雨轩博客</a></p>
+	</div>
+	<!-- //copyright -->
+
+	<!-- Jquery -->
+	<script src="/static/js/jquery-3.3.1.min.js"></script>
+	<!-- //Jquery -->
+
+	<!-- effect js -->
+	<script src="/static/js/canva_moving_effect.js"></script>
+	<!-- //effect js -->
+	<script src="/static/layer/layer.js"></script>
+	<script>
+		$('#login').click(function(){
+			var name = $('#name').val();
+			var pwd = $('#pwd').val();
+			if(name == ''){
+				layer.msg('请输入登陆账号',{icon:2,shade:0.3});
+				return;
+			}
+			if(pwd == ''){
+				layer.msg('请输入登陆密码',{icon:2,shade:0.3});
+				return;
+			}
+			layer.msg('正在登陆,请稍等...',{icon:16,shade:0.3,time:9999999999});
+			$.ajax({
+				url:'/Index/User/doLogin',
+				data:{name:name,password:pwd},
+				success:function(data){
+					if(data == '1'){
+						layer.msg('用户名密码错误.',{icon:2,shade:0.3});
+						return;
+					}
+					location.href = '/Index/Index/index';
+				},error:function(){
+					layer.msg('服务器异常,请联系系统管理员',{icon:2,shade:0.3});
+				},complete:function(){
+					layer.closeAll();
+				}
+			});
+		});
+		
+	</script>
+</body>
+
+</html>

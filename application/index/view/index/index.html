@@ -1,0 +1,296 @@
+
+ 
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>雨轩密码管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  
+  <link rel="stylesheet" href="/static/layui/css/layui.css"  media="all">
+  <style>.layui-form-label {
+	width: 62px;
+	padding-left: 0px;
+}
+
+.layui-input-block {
+	margin-left: 78px;
+}
+
+.layui-input,
+.layui-textarea {
+	width: 95%;
+}
+
+.layui-layer-content {
+	padding-top: 10px;
+}
+  .layui-layer-page .layui-layer-content{
+  	padding-top: 0px;
+  }
+  </style>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">雨轩密码管理系统</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+  
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+          	
+        </a>
+       
+      </li>
+      <li class="layui-nav-item"><a href="/Index/User/logout">退出登陆</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">密码管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="javascript:;">密码列表</a></dd>
+            <dd><a target="_blank" href="http://www.yuxuan66.com">雨轩博客</a></dd>
+          </dl>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+    	<span class="layui-breadcrumb">
+  <a href="javascript:;">首页</a>
+  <a href="javascript:;">密码管理</a>
+  <a><cite>密码列表</cite></a>
+</span>
+<hr />
+ 
+    	<table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © <a href="https://www.yuxuan66.com" target="_blank">www.yuxuan66.com</a> - 雨轩博客出品
+  </div>
+</div>
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加密码</button>
+  </div>
+</script>
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<div id="hide" style="display: none;">
+	<div class="layui-form-item">
+    <label class="layui-form-label">标题:</label>
+    <div class="layui-input-block">
+      <input type="text" name="username"  id="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">账号:</label>
+    <div class="layui-input-block">
+      <input type="text" name="username" id="name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+	<div class="layui-form-item">
+    <label class="layui-form-label">密码:</label>
+    <div class="layui-input-block">
+      <input type="text" name="username" id="pwd" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">备注:</label>
+    <div class="layui-input-block">
+      <input type="text" name="username" id="remake" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    
+  </div>
+  <div class="layui-form-item" style="text-align: center;">
+  	<button class="layui-btn layui-btn-normal addPass" onclick="addPass()">保存</button>
+  </div>
+</div>   
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script>let _table;
+
+function addPass() {
+	var title = $('.layui-layer-content').find('#title').val();
+	var name = $('.layui-layer-content').find('#name').val();
+	var pwd = $('.layui-layer-content').find('#pwd').val();
+	var remake = $('.layui-layer-content').find('#remake').val();
+	if(title == '') {
+		layer.msg('请输入标题', {
+			icon: 2,
+			shade: 0.3
+		});
+		return;
+	}
+	if(name == '') {
+		layer.msg('请输入账号', {
+			icon: 2,
+			shade: 0.3
+		});
+		return;
+	}
+	if(pwd == '') {
+		layer.msg('请输入密码', {
+			icon: 2,
+			shade: 0.3
+		});
+		return;
+	}
+
+	$.ajax({
+		url: '/Index/Index/addPass',
+		data: {
+			title: title,
+			name: name,
+			pwd: pwd,
+			remake: remake
+		},
+		success: function(data) {
+			if(data == '1') {
+				layer.msg('添加成功', {
+					icon: 1,
+					time: 1750
+				}, function() {
+					_table.reload("listReload");
+				});
+				return;
+			}
+		},
+		error: function() {
+			layer.msg('服务器异常,请联系系统管理员', {
+				icon: 2,
+				shade: 0.3
+			});
+		},
+		complete: function() {
+			layer.closeAll();
+		}
+	});
+}
+//JavaScript代码区域
+layui.use(['element', 'table'], function() {
+	var element = layui.element,
+		table = layui.table;
+	_table = table;
+	table.render({
+		id: 'listReload',
+		elem: '#test',
+		url: '/Index/Index/pwdList',
+		toolbar: '#toolbarDemo',
+		title: '密码列表',
+		cols: [
+			[
+
+				{
+					field: 'id',
+					title: 'ID',
+					width: 80,
+					fixed: 'left',
+					unresize: true,
+					sort: true
+				}, {
+					field: 'title',
+					title: '标题',
+					width: 200,
+					edit: 'text'
+				}, {
+					field: 'name',
+					title: '用户名',
+					width: 150,
+					edit: 'text'
+				}, {
+					field: 'pwd',
+					title: '密码',
+					width: 200,
+					edit: 'text',
+					sort: true
+				}, {
+					field: 'remake',
+					title: '备注',
+					width: 200
+				}, {
+					fixed: 'right',
+					title: '操作',
+					toolbar: '#barDemo',
+					width: 150
+				}
+			]
+		],
+		page: true
+	});
+
+	//头工具栏事件
+	table.on('toolbar(test)', function(obj) {
+		var checkStatus = table.checkStatus(obj.config.id);
+		switch(obj.event) {
+			case 'getCheckData':
+				layer.open({
+					type: 1,
+					title: '添加密码',
+					area: ['420px', '330px'], //宽高
+					content: $('#hide').html()
+				});
+				break;
+		};
+	});
+	//监听行工具事件
+	table.on('tool(test)', function(obj) {
+		var data = obj.data;
+		//console.log(obj)
+		if(obj.event === 'del') {
+			layer.confirm('真的删除么(无法恢复)', function(index) {
+				$.getJSON('/Index/Index/del?id=' + obj.data.id);
+				layer.msg('删除成功', {
+					icon: 1,
+					time: 1750
+				}, function() {
+					obj.del();
+					_table.reload("listReload");
+				});
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			 layer.open({
+        type: 1
+        ,title: false //不显示标题栏
+        ,closeBtn: false
+        ,area: '300px;'
+        ,shade: 0.8
+        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+        ,btn: ['我知道了']
+        ,btnAlign: 'c'
+        ,moveType: 1 //拖拽模式，0或者1
+        ,content: `<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">标题:${obj.data.title}<br>账号:${obj.data.name}<br>密码:${obj.data.pwd}<br>备注:${obj.data.remake}</div>`
+        ,success: function(layero){
+        
+        }
+      });
+		}
+	});
+});</script>
+
+</body>
+</html>
